@@ -22,6 +22,10 @@ app.use((err, req, res, next) => {
   res.status(500).send("Qualcosa è andato storto!");
 });
 
+app.use((req, res, next) => {
+  res.status(404).json({ error: "Endpoint non trovato" });
+});
+
 app.listen(port, () => {
   console.log(`Il server sta ascoltando sulla porta: ${port}`);
 });

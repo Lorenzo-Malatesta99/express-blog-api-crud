@@ -6,13 +6,8 @@ function index(req, res) {
 }
 
 function show(req, res) {
-  const id = parseInt(req.params.id);
-  console.log(`Ecco il post con id: ${id}`);
-  const findPost = posts.find((post) => post.id === id);
-  if (!findPost) {
-    return res.status(404).json({ error: "Post not found" });
-  }
-  res.json(findPost);
+  console.log(`Ecco il post con id: ${req.post.id}`);
+  res.json(req.post);
 }
 
 function store(req, res) {
@@ -33,37 +28,31 @@ function store(req, res) {
 
 
 function update(req, res) {
-  const id = parseInt(req.params.id);
-  const { title, content } = req.body;
-  const postIndex = posts.findIndex((post) => post.id === id);
-  if (postIndex === -1) {
-    return res.status(404).json({ error: "Post non trovato" });
-  }
-  posts[postIndex] = { id, title, content };
-  console.log("Post aggiornato:", posts[postIndex]);
-  res.json(posts[postIndex]);
+  const { title, slug, content, image, tags } = req.body;
+  req.post.title = title;
+  req.post.slug = slug;
+  req.post.content = content;
+  req.post.image = image;
+  req.post.tags = tags;
+  console.log("Post aggiornato:", req.post);
+  res.json(req.post);
 }
 
 function modify(req, res) {
-  const id = parseInt(req.params.id);
-  const { title, content } = req.body;
-  const post = posts.find((post) => post.id === id);
-  if (!post) {
-    return res.status(404).json({ error: "Post non trovato" });
-  }
-  if (title) post.title = title;
-  if (content) post.content = content;
-  console.log("Post modificato:", post);
-  res.json(post);
+  const { title, slug, content, image, tags } = req.body;
+  if (title) req.post.title = title;
+  if (slug) req.post.slug = slug;
+  if (content) req.post.content = content;
+  if (image) req.post.image = image;
+  if (tags) req.post.tags = tags;
+  console.log("Post modificato:", req.post);
+  res.json(req.post);
 }
 
 function destroy(req, res) {
-  const id = parseInt(req.params.id);
-  const postIndex = posts.findIndex((post) => post.id === id);
-  if (postIndex === -1) {
-    return res.status(204).json({ error: "Post not found" });
-  }
+  const postIndex = posts.findIndex((post) => post.id === req.post.id);
   posts.splice(postIndex, 1);
+  console.log(`Post con id ${req.post.id} eliminato`);
   res.json(posts);
 }
 
