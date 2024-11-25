@@ -30,10 +30,10 @@ router.get("/", postsController.index);
 router.get("/:id", postsController.show);
 
 //store 
-router.post("/", postsController.store);
+router.post("/", validatePost, postsController.store);
 
 //update 
-router.put("/:id", postsController.update);
+router.put("/:id", validatePost, postsController.update);
 
 //modify 
 router.patch("/:id", postsController.modify);
