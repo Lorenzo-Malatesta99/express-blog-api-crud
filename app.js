@@ -1,6 +1,7 @@
 const express = require("express");
 const app = express();
 const port = 3000;
+const cors = require("cors");
 const postsRouter = require("./routers/router.js");
 const bodyParser = require("body-parser");
 
@@ -9,6 +10,8 @@ app.use(express.static("public"));
 app.use(express.json());
 
 app.use(bodyParser.json());
+
+app.use(cors())
 
 app.get("/", (req, res) => {
   console.log("Questa è la root!");
